@@ -24,10 +24,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Todo
+    Route::get('/todo', [TodoController::class, 'index'])->name('todo.index');
+    Route::post('/todo-store', [TodoController::class, 'store'])->name('todo.store');
 });
 
 
 Route::get('/users', [UserController::class, 'index'])->name('user.index');
-Route::get('/todo', [TodoController::class, 'index'])->name('todo.index');
 
 require __DIR__.'/auth.php';
