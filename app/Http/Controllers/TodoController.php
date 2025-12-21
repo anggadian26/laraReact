@@ -10,7 +10,7 @@ class TodoController extends Controller
 {
     public function index(){
         return Inertia::render("Todo", [
-            'status' => 'OK'
+            'todos' => Todo::latest()->paginate(2),
         ]);
     }
 
@@ -29,4 +29,6 @@ class TodoController extends Controller
 
         return back()->with('message','Todo berhasil disimpan');
     }
+
+
 }

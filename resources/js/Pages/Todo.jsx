@@ -8,8 +8,9 @@ import Pagination from '@/Components/Pagination';
 
 
 
-const Todo = () => {
+const Todo = ({ todos }) => {
 
+    console.log(todos)
     const { flash, errors } = usePage().props;
 
 
@@ -49,22 +50,26 @@ const Todo = () => {
                 </div>
             </form>
             <div className="flex flex-col gap-2">
-                <div className="flex justify-between py-3 px-6 bg-red-100 rounded-md">
-                    <h3>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nam vero blanditiis nisi.</h3>
-                    <div className="flex items-center justify-content-center gap-2">
-                        <BsPencilSquare size={20}/> | <FaTrash size={20}/>
-                    </div>
-                </div>
-                <div className="flex justify-between py-3 px-6 bg-green-100 rounded-md">
+                {todos.data.map((todo, i) => {
+                    return (
+                        <div key={i} className="flex justify-between py-3 px-6 bg-red-100 rounded-md">
+                            <h3>{todo.name}</h3>
+                            <div className="flex items-center justify-content-center gap-2">
+                                <BsPencilSquare size={20}/> | <FaTrash size={20}/>
+                            </div>
+                        </div>
+                    )
+                })}
+                {/* <div className="flex justify-between py-3 px-6 bg-green-100 rounded-md">
                     <h3>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nam vero blanditiis nisi.</h3>
                     <div className="flex items-center justify-content-center gap-2">
                         <CiCircleCheck size={20}/> | <FaTrash size={20}/>
                     </div>
-                </div>  
+                </div>   */}
             </div>
 
             <div className="mt-8 flex justify-end items-center">
-                <Pagination />
+                <Pagination links={todos.links}/>
             </div>
             
         </div>
