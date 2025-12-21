@@ -16,9 +16,14 @@ class TodoController extends Controller
 
     public function store(Request $request){
         $data = $request->validate([
-            'name'          => 'required',
+            'name'          => 'required|min:3',
             'is_complete'   => 'boolean'
-        ]);
+        ],
+        [
+            'name.required' => 'Nama todo tidak boleh kosong',
+            'name.min'  => 'Minimal 3 karakter'
+        ]
+        );
 
         Todo::create($data);
 
