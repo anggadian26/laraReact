@@ -1,10 +1,11 @@
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Link, router, useForm, usePage } from '@inertiajs/react';
-import React from 'react';
+import React, { useState } from 'react';
 import { BsPencilSquare } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
 import { CiCircleCheck } from "react-icons/ci";
 import Pagination from '@/Components/Pagination';
+import { FaRegCircleCheck } from 'react-icons/fa6';
 
 
 const Todo = ({ todos }) => {
@@ -21,7 +22,23 @@ const Todo = ({ todos }) => {
             onSuccess: () => {
                 reset();
             }
-        })
+        });
+    }
+
+    const [processing, setProcessing] = useState(false);
+
+    const handleComplate = (id, name, isComplete) => {
+        setProcessing(true);
+        let title = document.getElementById(id);
+        title.innerText = "Processing...";
+        router.patch(`/todo/edit-complete/${id}`, {
+            is_complete: !isComplete
+        }, {
+            onSuccess: () => {
+                setProcessing(false)
+                title.innerText = name;
+            }
+        });
     }
     
     return (
@@ -51,9 +68,10 @@ const Todo = ({ todos }) => {
                 <div className="flex flex-col gap-2">
                     {todos.data.map((todo, i) => {
                         return (
-                            <div key={i} className="flex justify-between py-3 px-6 bg-red-100 rounded-md">
-                                <h3>{todo.name}</h3>
+                            <div key={i} className={`flex justify-between py-3 px-6 ${todo.is_complete ? "bg-green-200" : "bg-red-100"} rounded-md`}>
+                                <h3 id={todo.id}>{ todo.name}</h3>
                                 <div className="flex items-center justify-content-center gap-2">
+                                    <FaRegCircleCheck className='cursor-pointer' size={22} onClick={() => handleComplate(todo.id, todo.name, todo.is_complete)}/>
                                     <Link href={`todo/edit/${todo.id}`}>
                                         <BsPencilSquare size={20}/> 
                                     </Link>

@@ -46,4 +46,13 @@ class TodoController extends Controller
         return redirect(route('todo.index'))->with('message', 'Data Berhasil Diupdate'); 
     }
 
+    public function updateComplete(Request $request, Todo $todo) {
+        $data = $request->validate([
+            'is_complete' => 'boolean'
+        ]);
+        
+        $todo->update($data);
+        return back()->with('message', 'Data Berhasil Diupdate');
+    }
+
 }
